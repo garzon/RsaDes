@@ -24,10 +24,10 @@ test end.
 ```
 
 ### 运行环境
-php >= 5.4
-64位php
-python(依赖requests库来发送HTTP请求)
-linux系统（在/tmp/目录下存放临时文件）
+php >= 5.4     
+64位php     
+python(依赖requests库来发送HTTP请求)     
+linux系统（在/tmp/目录下存放临时文件）     
 
 ### 源代码
 实验所用的客户端是rsa_lab.py，会发送HTTP请求来与服务器端的php脚本rsa_des_server.php来交互     
@@ -43,8 +43,8 @@ python和php之间的相互调用通过命令行即python的os.system和php的sy
 
 ### 使用说明
 在服务端部署好代码后，     
-在本地命令行输入`$ python rsa_lab.py`即可
+在本地命令行输入`$ python rsa_lab.py`即可     
 
 ### 注意事项
-DES采用CBC模式PKCS5 padding
-RSA中的字符串编码方式采用小端法
+DES采用CBC模式PKCS5 padding     
+RSA中的字符串编码方式采用小端法     
