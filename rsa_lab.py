@@ -43,7 +43,7 @@ print 'step 3: the plaintext of the communication is %s' % content
 put_contents('/tmp/my_des_plaintext.txt', content)
 os.system('php des_encrypt.php') # calling the php code to use the des encryption
 cipher = open('/tmp/my_des_encrypt_result.txt', 'rb').read()
-recv = requests.post(domain + '/rsa_des_server.php?step=3', data={'cipher': cipher}).text
+recv = requests.post(domain + '/rsa_des_server.php?step=3', data={'cipher': cipher}).content
 print 'step 3: recv the response of the server(hex_encoded): %s' % recv.encode('hex')
 put_contents('/tmp/my_des_cipher.txt', recv)
 os.system('php des_decrypt.php') # calling the php code to use the des decryption

@@ -10,7 +10,16 @@
 最后，由客户端解密，验证数字，从而证明整个实验过程中无差错。
 
 ### 实验输出
-
+garzon@garzons-lib:~/RsaDes$ python rsa_lab.py 
+step 1: server public key received - e: 65537, n: 71180564796319301130678599281300711840064247782725594211169750136303836863741
+------------------------
+step 2: des key generated, hex encoded: a9f92a54a009aac9
+step 2: encrypted des key sent, cipher num: 57992803170480481050705781213901862700279628440645741809515483949892903581551, hex_encoded: 6f3767e270447e8a93bf1084432a8bc285437251617c0aa60da1cf276ec33680
+------------------------
+step 3: the plaintext of the communication is 80430
+step 3: recv the response of the server(hex_encoded): fe445bd5501e3ede
+step 3: the plaintext of the response is 80431 (should be 80430+1)
+test end.
 
 ### 运行环境
 php >= 5.4
