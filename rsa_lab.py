@@ -15,7 +15,6 @@ assert(decrypt_block(encrypt_block(123, test_e, test_n), test_d, test_n) == 123)
 test_cipher = encrypt(test_rsa_string, test_e, test_n)
 test_output = decrypt(test_cipher, test_d, test_n)
 assert(test_output == test_rsa_string)
-exit()
 
 # step 1: recv the public key of server
 recv = json.loads(requests.get(domain + '/rsa_des_server.php?step=1').text)
