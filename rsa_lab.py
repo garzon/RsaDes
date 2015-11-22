@@ -8,6 +8,15 @@ def put_contents(path, content):
 
 domain = 'http://garzon.science/RsaDes'
 
+# step 0: verify the implemented rsa algorithm
+test_rsa_string = 'Thls 1s th3 tEsT 5tr!ng~~~ ^^'
+test_d, test_e, test_n = gen_key_pair()
+assert(decrypt_block(encrypt_block(123, test_e, test_n), test_d, test_n) == 123)
+test_cipher = encrypt(test_rsa_string, test_e, test_n)
+test_output = decrypt(test_cipher, test_d, test_n)
+assert(test_output == test_rsa_string)
+exit()
+
 # step 1: recv the public key of server
 recv = json.loads(requests.get(domain + '/rsa_des_server.php?step=1').text)
 server_e = int(recv['e'])
@@ -26,7 +35,7 @@ put_contents('/tmp/my_des_key.txt', des_key)
 cipher = encrypt(des_key, server_e, server_n)
 if requests.post(domain + '/rsa_des_server.php?step=2', data={'des_key': cipher}).text != 'success':
     raise RuntimeError, 'something wrong'
-print 'step 2: encrypted des key sent, cipher num: %d, hex_encoded: %s' % (string2num(cipher), cipher)
+print 'step 2: encrypted des key sent, cipher num: %d, hex_encoded: %s' % (string2num(cipher), cipher.encode('hex'))
 
 print '------------------------'
 # step 3: using des to encrypt the content of the communication

@@ -24,21 +24,24 @@ def num2string(num):
     return ret
     
 def miller_rabin(n):
+    if n == 2: return True
+    if n & 1 == 0: return False
     s = 0
     d = n-1
     while True:
-        quot, rem = divmod(n, 2)
+        quot, rem = divmod(d, 2)
         if rem == 1: break
         s += 1
         d = quot
     assert(2 ** s * d == n - 1)
+    assert(d & 1 == 1)
 
-    for i in xrange(5):
+    for i in xrange(20):
         a = random.randint(2, n-1)
         if pow(a, d, n) == 1: continue
         flag = False
         for j in xrange(s):
-            if pow(a, 2 ** i * d, n) == n-1:
+            if pow(a, 2 ** j * d, n) == n-1:
                 flag = True
                 break
         if flag: continue
@@ -60,12 +63,9 @@ def gen_128bit_prime():
             big_num += 2
             continue
         if miller_rabin(big_num) == False:
-            flag = False
-            break
-        if flag == False:
             big_num += 2
             continue
-        if flag: break
+        break
     return big_num
         
 def ext_euclid(a, b):
@@ -81,8 +81,9 @@ def gen_key_pair():
     r = (p-1)*(q-1)
     e = 65537
     d, _1, _2 = ext_euclid(e, r)
+    if d < 0: return gen_key_pair()
+    assert((e*d) % r == 1)
     return (d, e, n)
-
     
 def encrypt_block(num128, public_key, n):
     return pow(num128, public_key, n)
@@ -96,15 +97,17 @@ def encrypt(st, public_key, n):
         block_string = st[i:i+16]
         block_num = string2num(block_string)
         cipher_num = encrypt_block(block_num, public_key, n)
-        ret += num2string(cipher_num)
+        block_cipher = num2string(cipher_num)
+        assert(len(block_cipher) <= 32)
+        block_cipher += '\x00' * (32 - len(block_cipher))
+        ret += block_cipher
     return ret
 
 def decrypt(st, private_key, n):
     ret = ''
-    for i in xrange(0, len(st), 16):  # 128bit(16bytes) per block
-        block_string = st[i:i+16]
+    for i in xrange(0, len(st), 32):  # 256bit(32bytes) per encrypted block for convenience
+        block_string = st[i:i+32]
         block_num = string2num(block_string)
         cipher_num = decrypt_block(block_num, private_key, n)
         ret += num2string(cipher_num)
     return ret
-
