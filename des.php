@@ -322,7 +322,7 @@ class Des extends DesModel {
 // $des = new Des("secretki");
 // var_dump(bin2hex($des->encrypt("hello world! I'm Garzon. h4Ha.")));
 // var_dump($des->decrypt(hex2bin("214247e7ddca9b21383d6f9ffa00b9727215a65b2171acd21bad7d3cd6afc59f")));
-
+/*
 if(isset($_GET['action'])) {
 	if(isset($_FILES["desData"]["tmp_name"])) {
 		$content = file_get_contents($_FILES["desData"]["tmp_name"]);
@@ -350,89 +350,5 @@ if(isset($_GET['action'])) {
 		}
 	}
 }
-
+*/
 ?>
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>DES加密解密工具</title>
-	<script src="<?= DOMAIN ?>/bower_components/jquery/dist/jquery.min.js"></script>
-	<script src="<?= DOMAIN ?>/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-	<script src="<?= DOMAIN ?>/bower_components/angular/angular.min.js"></script>
-	<script src="<?= DOMAIN ?>/js/util.js"></script>
-
-	<link rel="stylesheet" href="<?= DOMAIN ?>/bower_components/bootstrap/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="<?= DOMAIN ?>/css/base.css">
-</head>
-
-<body>
-	<div class="main-block container block-page" ng-app="des">
-		<div class="col-sm-12">
-			<form ng-controller="mainController" method="post" target="_blank" action="{{actionUrl}}" enctype="multipart/form-data" class="form-horizontal" name="myForm">
-				<h3>{{ isActionSelected ? 'DES ' + action : '在线DES加密解密工具 by Garzon' }}</h3>
-				<div ng-show="!isActionSelected">
-					<a href="#" ng-click="selectEncrypt()" class="btn btn-primary">加密</a>
-					<a href="#" ng-click="selectDecrypt()" class="btn btn-success">解密</a>
-				</div>
-				<div ng-show="isActionSelected">
-					<h5>注：若操作成功将自动开始下载，否则显示错误提示</h5>
-					<div class="form-group" >
-						<div class="row">
-							<label for="resumeData" class="col-md-1-2 control-label">请选择文件：</label>
-							<div class="col-md-10 row">
-								<div class="col-md-6">
-									<span class="btn btn-success btn-lg btn-file fabu-form-button">
-										<span>上传文件</span>
-										<input type="file" id="desData" name='desData' accept=".txt" required="required">
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="row">
-							<label for="key" class="col-md-1-2 control-label">密钥：</label>
-							<div class="row col-md-10">
-								<div class="col-md-3">
-									<input type="text" class="form-control" ng-model="key" id="key" name='key' placeholder="Must be 8 bytes" required="required" ng-minlength="8" ng-maxlength="8"/>
-								</div>
-							</div>
-						</div>
-					</div>
-					<span class="red" ng-show="myForm.desData.$error.required">请选择上传的文件！</span>&nbsp;
-					<span class="red" ng-show="!myForm.key.$valid">请输入8字节长的密钥！</span>
-					<div class="form-group">
-						<div class="col-sm-offset-1 col-sm-6">
-							<input type="submit" class="btn btn-lg btn-primary" value="{{action}} !" ng-disabled="!myForm.$valid" />
-							&nbsp; &nbsp;
-							<a href="#" ng-click="selectBack()" class="btn btn-default">后退</a>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
-	<script>
-		var desApp = angular.module('des', []);
-		desApp.controller('mainController', function($scope) {
-			$scope.selectEncrypt = function() {
-				$scope.isActionSelected = true;
-				$scope.action = 'encrypt';
-				$scope.actionUrl = '?action=' + $scope.action;
-			};
-			$scope.selectDecrypt = function() {
-				$scope.isActionSelected = true;
-				$scope.action = 'decrypt';
-				$scope.actionUrl = '?action=' + $scope.action;
-			};
-			$scope.selectBack = function() {
-				$scope.isActionSelected = false;
-				$scope.action = '';
-			};
-			$scope.selectBack();
-		});
-	</script>
-</body>
-</html>
