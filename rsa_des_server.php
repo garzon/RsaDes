@@ -3,8 +3,8 @@
 function step1() {
     //$client_e = strval($_POST['e']);
     //$client_n = strval($_POST['n']);
-    system('python -c "print __import__(\'json\').dumps([str(x) for x in __import__(\'rsa\').gen_key_pair()])"', $output);
-    $key_pair = json_decode($output);
+    exec('python -c "print __import__(\'json\').dumps([str(x) for x in __import__(\'rsa\').gen_key_pair()])"', $output);
+    $key_pair = json_decode($output[0]);
     $server_d = $key_pair[0];
     $server_e = $key_pair[1];
     $server_n = $key_pair[2];
@@ -21,8 +21,8 @@ function step2() {
     $n = file_get_contents('/tmp/my_rsa_n.txt');
     $cipher = strval($_POST['des_key']);
     file_put_contents('/tmp/my_rsa_cipher.txt', $cipher);
-    system('python -c "print __import__(\'rsa\').decrypt(open(\'/tmp/my_rsa_cipher.txt\', \'rb\').read(), ' . $d . ', ' . $n . ')"', $output);
-    file_put_contents('/tmp/my_des_key.txt', $output);
+    exec('python -c "print __import__(\'rsa\').decrypt(open(\'/tmp/my_rsa_cipher.txt\', \'rb\').read(), ' . $d . ', ' . $n . ')"', $output);
+    file_put_contents('/tmp/my_des_key.txt', $output[0]);
     echo 'success';
 }
 

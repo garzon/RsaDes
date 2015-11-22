@@ -36,4 +36,4 @@ python和php之间的相互调用通过命令行即python的os.system和php的sy
 
 ### 注意事项
 DES采用CBC模式PKCS5 padding
-RSA中的字符串编码方式采用地址低端对应大整数的least significant bit
+RSA中的字符串编码方式采用小端法

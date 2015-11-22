@@ -8,11 +8,7 @@ def put_contents(path, content):
 
 domain = 'http://garzon.science/RsaDes'
 
-# step 1: /*generate key pair, send it to the server, */recv the public key of server
-#my_d, my_e, my_n = gen_key_pair()
-
-#print 'step 1: sending public key - e: %d, n: %d' % (my_e, my_n)
-#recv = json.loads(requests.post(domain + '/rsa_des_server.php?step=1', {'n': str(my_n), 'e': str(my_e)}).text)
+# step 1: recv the public key of server
 recv = json.loads(requests.get(domain + '/rsa_des_server.php?step=1').text)
 server_e = recv['e']
 server_n = recv['n']
@@ -28,7 +24,7 @@ print 'step 2: des key generated, hex encoded: %s' % des_key.encode('hex')
 put_contents('/tmp/my_des_key.txt', des_key)
 
 cipher = encrypt(des_key, server_e, server_n)
-if requests.post(domain + '/rsa_des_server.php?step=2', {'des_key': cipher}).text != 'success':
+if requests.post(domain + '/rsa_des_server.php?step=2', data={'des_key': cipher}).text != 'success':
     raise RuntimeError, 'something wrong'
 print 'step 2: encrypted des key sent'
 
@@ -39,7 +35,7 @@ print 'step 3: the plaintext of the communication is %s' % content
 put_contents('/tmp/my_des_plaintext.txt', content)
 os.system('php des_encrypt.php') # calling the php code to use the des encryption
 cipher = open('/tmp/my_des_encrypt_result.txt', 'rb').read()
-recv = requests.post(domain + '/rsa_des_server.php?step=3', {'cipher': cipher}).text
+recv = requests.post(domain + '/rsa_des_server.php?step=3', data={'cipher': cipher}).text
 print 'step 3: recv the response of the server(hex_encoded): %s' % recv.encode('hex')
 put_contents('/tmp/my_des_cipher.txt', recv)
 os.system('php des_decrypt.php') # calling the php code to use the des decryption
