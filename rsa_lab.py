@@ -10,8 +10,8 @@ domain = 'http://garzon.science/RsaDes'
 
 # step 1: recv the public key of server
 recv = json.loads(requests.get(domain + '/rsa_des_server.php?step=1').text)
-server_e = recv['e']
-server_n = recv['n']
+server_e = int(recv['e'])
+server_n = int(recv['n'])
 print 'step 1: server public key received - e: %d, n: %d' % (server_e, server_n)
 
 print '------------------------'
