@@ -10,6 +10,7 @@
 最后，由客户端解密，验证数字，从而证明整个实验过程中无差错。
 
 ### 实验输出
+```
 garzon@garzons-lib:~/RsaDes$ python rsa_lab.py 
 step 1: server public key received - e: 65537, n: 71180564796319301130678599281300711840064247782725594211169750136303836863741
 ------------------------
@@ -20,6 +21,7 @@ step 3: the plaintext of the communication is 80430
 step 3: recv the response of the server(hex_encoded): fe445bd5501e3ede
 step 3: the plaintext of the response is 80431 (should be 80430+1)
 test end.
+```
 
 ### 运行环境
 php >= 5.4
