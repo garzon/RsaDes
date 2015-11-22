@@ -26,7 +26,7 @@ put_contents('/tmp/my_des_key.txt', des_key)
 cipher = encrypt(des_key, server_e, server_n)
 if requests.post(domain + '/rsa_des_server.php?step=2', data={'des_key': cipher}).text != 'success':
     raise RuntimeError, 'something wrong'
-print 'step 2: encrypted des key sent'
+print 'step 2: encrypted des key sent, cipher num: %d, hex_encoded: %s' % (string2num(cipher), cipher)
 
 print '------------------------'
 # step 3: using des to encrypt the content of the communication

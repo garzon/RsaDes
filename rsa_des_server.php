@@ -21,8 +21,7 @@ function step2() {
     $n = file_get_contents('/tmp/my_rsa_n.txt');
     $cipher = strval($_POST['des_key']);
     file_put_contents('/tmp/my_rsa_cipher.txt', $cipher);
-    exec('python -c "print __import__(\'rsa\').decrypt(open(\'/tmp/my_rsa_cipher.txt\', \'rb\').read(), ' . $d . ', ' . $n . ')"', $output);
-    file_put_contents('/tmp/my_des_key.txt', $output[0]);
+    exec('python -c "f=open(\'/tmp/my_des_key.txt\',\'wb\');f.write(__import__(\'rsa\').decrypt(open(\'/tmp/my_rsa_cipher.txt\', \'rb\').read(), ' . $d . ', ' . $n . '));f.close()"');
     echo 'success';
 }
 
